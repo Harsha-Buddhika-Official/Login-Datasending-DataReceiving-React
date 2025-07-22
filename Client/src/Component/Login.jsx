@@ -1,6 +1,9 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Login = () => {
+
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -132,9 +135,9 @@ const Login = () => {
           <div className="text-center mt-6">
             <p className="text-sm text-gray-600">
               Don't have an account?{' '}
-              <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors">
+              <Link to="/Signup" className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors">
                 Sign up for free
-              </a>
+              </Link>
             </p>
           </div>
         </div>
