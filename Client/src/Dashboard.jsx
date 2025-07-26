@@ -6,8 +6,10 @@ import UserProfile from './Component/UserProfile'
 import ProfileEditForm from './Component/ProfileEditForm'
 import LoadingSpinner from './Component/LoadingSpinner'
 import ErrorAlert from './Component/ErrorAlert'
+import { useNavigate } from 'react-router-dom'
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   // User profile state
   const [profile, setProfile] = useState({
     name: 'John Doe',
@@ -173,13 +175,7 @@ const Dashboard = () => {
   
   // Handle edit profile
   const handleEditProfile = () => {
-    // In a real app with routing, you would use a router for navigation
-    // For this example we'll just change the window location
-    window.location.href = '/profile/edit';
-    
-    // The below code is kept for reference if we want to use the inline editing
-    // setProfileForm({...profile});
-    // setShowEditProfile(true);
+    navigate('/profile/edit', { state: { profile } });
   };
   
   // Navigate to full profile page

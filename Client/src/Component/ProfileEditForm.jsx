@@ -1,6 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const ProfileEditForm = ({ profile, onChange, onSubmit, loading, error, onCancel }) => {
+const ProfileEditForm = ({ onChange, onSubmit, loading, error, onCancel }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const initialProfile = location.state?.profile || {
+    name: '',
+    email: '',
+    role: '',
+    avatar: ''
+  };
+  const [profile, setProfile] = useState(initialProfile);
+
+  // Handle input change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProfile({ ...profile, [name]: value });
+    if (onChange) onChange(e);
+  };
+
+  // Handle form submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (onSubmit) {
+      onSubmit(e);
+    } else {
+      // You can handle saving here or call a prop
+      // For now, just navigate back
+      navigate('/Dashboard');
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden">
       <div className="p-5 border-b border-gray-200">
@@ -9,7 +39,7 @@ const ProfileEditForm = ({ profile, onChange, onSubmit, loading, error, onCancel
       <div className="p-6">
         {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">{error}</div>}
         
-        <form onSubmit={onSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex flex-col items-center mb-4">
             <div className="w-24 h-24 relative">
               <img 
@@ -26,7 +56,7 @@ const ProfileEditForm = ({ profile, onChange, onSubmit, loading, error, onCancel
                   name="avatar" 
                   type="text" 
                   className="hidden" 
-                  onChange={onChange} 
+                  onChange={handleChange} 
                   value={profile.avatar} 
                 />
               </label>
@@ -37,7 +67,7 @@ const ProfileEditForm = ({ profile, onChange, onSubmit, loading, error, onCancel
                 type="text"
                 name="avatar"
                 value={profile.avatar}
-                onChange={onChange}
+                onChange={handleChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm mt-1 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 placeholder="https://example.com/avatar.jpg"
               />
@@ -54,7 +84,7 @@ const ProfileEditForm = ({ profile, onChange, onSubmit, loading, error, onCancel
                 id="name"
                 name="name"
                 value={profile.name}
-                onChange={onChange}
+                onChange={handleChange}
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 placeholder="John Doe"
@@ -70,7 +100,7 @@ const ProfileEditForm = ({ profile, onChange, onSubmit, loading, error, onCancel
                 id="email"
                 name="email"
                 value={profile.email}
-                onChange={onChange}
+                onChange={handleChange}
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 placeholder="john@example.com"
@@ -87,7 +117,7 @@ const ProfileEditForm = ({ profile, onChange, onSubmit, loading, error, onCancel
               id="role"
               name="role"
               value={profile.role}
-              onChange={onChange}
+              onChange={handleChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Product Manager"
             />
